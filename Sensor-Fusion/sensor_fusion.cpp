@@ -43,17 +43,16 @@ void config()
 {
     uint8_t* pwrMgmt;
     readRegister(107, pwrMgmt,1);
-    *pwrMgmt = *pwrMgmt | 0x40;
+    *pwrMgmt |= 0x40;
     writeReg(107, pwrMgmt, 1);
     
     const uint8_t GYRO_CONFIG = 0x1B;
     const uint8_t set_full_scale = 0x18;
     writeReg(GRYO_CONFIG, &set_full_scale, 1);
 
-
     uint8_t* con;
     readRegister(26, con, 1);
-    *con = *con & 0xF7;
+    *con &= 0xF7;
     writeReg(26, con, 1);
 
 }
