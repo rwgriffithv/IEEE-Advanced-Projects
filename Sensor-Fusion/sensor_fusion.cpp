@@ -41,9 +41,10 @@ void writeReg(uint8_t reg, uint8_t *buf, size_t len)
 
 uint8_t config()
 {
-    char pwrMgmt[1];
-    readRegister(107,pwrMgmt,1);
-    pwrMgmt[0] = 0;
+    uint8_t* pwrMgmt;
+    readRegister(107, &pwrMgmt,1);
+    *pwrMgmt = *pwrMgmt | 0x40;
+    writeReg(107, &pwrMgmt, 1);
 
 }
 
