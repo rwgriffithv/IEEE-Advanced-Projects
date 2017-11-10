@@ -42,14 +42,14 @@ void writeReg(uint8_t reg, uint8_t *buf, size_t len)
 uint8_t config()
 {
     uint8_t* pwrMgmt;
-    readRegister(107, &pwrMgmt,1);
+    readRegister(107, pwrMgmt,1);
     *pwrMgmt = *pwrMgmt | 0x40;
-    writeReg(107, &pwrMgmt, 1);
+    writeReg(107, pwrMgmt, 1);
 
     uint8_t* con;
-    readRegister(26, &con, 1);
+    readRegister(26, con, 1);
     *con = *con & 0xF7;
-    writeReg(26, &ccon, 1);
+    writeReg(26, con, 1);
 
 }
 
