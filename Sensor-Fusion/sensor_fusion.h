@@ -16,6 +16,11 @@ void readReg(uint8_t reg, uint8_t *buf, size_t len);
  */
 void writeReg(uint8_t reg, uint8_t *buf, size_t len);
 
+/** configure the IMU
+ *returns non-zero if there was an error
+*/
+uint8_t config();
+
 struct vector {
   float x;
   float y;
