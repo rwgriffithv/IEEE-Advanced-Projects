@@ -28,15 +28,17 @@ void writeReg(uint8_t reg, uint8_t *buf, size_t len)
 
   char ret = Wire.endTransmission();
 
-  if (!ret){
-    if (ret == 1)
-      serial.print("Error 1: Data too long to fit in transmit buffer!");
-    else if (ret == 2)
-      Serial.print("Error 2: Received NACK on transmit of address!");
-    else if (ret == 3)
-      Serial.print("Error 3: Received NACK on transmit of data!");
-    else
-      Serial.print("Error 4: Other error!");
+  if (!ret)
+    return;
+  
+  if (ret == 1)
+    serial.print("Error 1: Data too long to fit in transmit buffer!");
+  else if (ret == 2)
+    Serial.print("Error 2: Received NACK on transmit of address!");
+  else if (ret == 3)
+    Serial.print("Error 3: Received NACK on transmit of data!");
+  else
+    Serial.print("Error 4: Other error!");
 }
 
 float vector_normalize(struct vector *raw, struct vector *unit)
