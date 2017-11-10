@@ -1,5 +1,9 @@
 #include <Arduino.h>
 
+/**Configures the device
+*/
+unit8_t config();
+
 /** Reads a register over I2C from the IMU.
  *
  * reg: register address to read from.
