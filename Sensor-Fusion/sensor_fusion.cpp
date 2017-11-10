@@ -4,7 +4,19 @@
 
 void readReg(uint8_t reg, uint8_t *buf, size_t len)
 {
-    // TODO: Implement
+    
+    if (Wire.requestFrom(reg, len) == 0) 
+    {
+        Serial.print("Read called but nothing read from slave: ");
+        Serial.println(reg,BIN);
+    }
+
+    int i = 0;
+    while(Wire.available())
+    {
+        buf[i] = Wire.read();
+        i++:
+    } 
 }
 
 void writeReg(uint8_t reg, uint8_t *buf, size_t len)
