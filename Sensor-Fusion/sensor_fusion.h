@@ -2,7 +2,7 @@
 
 /**Configures the device
 */
-unit8_t config();
+void config();
 
 /** Reads a register over I2C from the IMU.
  *
