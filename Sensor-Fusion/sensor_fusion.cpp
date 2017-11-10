@@ -46,6 +46,11 @@ uint8_t config()
     *pwrMgmt = *pwrMgmt | 0x40;
     writeReg(107, &pwrMgmt, 1);
 
+    uint8_t* con;
+    readRegister(26, &con, 1);
+    *con = *con & 0xF7;
+    writeReg(26, &ccon, 1);
+
 }
 
 float vector_normalize(struct vector *raw, struct vector *unit)
