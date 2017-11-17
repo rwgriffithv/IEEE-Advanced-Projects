@@ -21,24 +21,21 @@ struct vector accelBias;
 struct vector gyroBias;
 
 void computeBiasComp(int lowBit, int highBit, float* dest) {
-  unsigned long sum = 0;
+  long sum = 0;
   uint8_t ready;
   uint8_t temp;
-
-  for (int i = 0; i < 75; i++) {
-//    do
-//    {
-//      readReg(58, &ready, 1);
-//    } while (ready & 0x01);
-
-
+  unsigned short addMe = 0;
+  
+  int i = 0;
+  for (;i < 75; i++) {
+    addMe = 0;
     readReg(highBit, &temp, 1);
-    sum += (unsigned long)(temp << 8);
+    addMe += ((unsigned short)(temp)) << 8;
     readReg(lowBit, &temp, 1);
-//    Serial.println(temp);
-    sum += (unsigned long)temp;
+    addMe += (unsigned short)temp;
+    sum += (short)(addMe);
   }
-  *dest = sum / 75;
+  *dest = (float)(sum / i);
 }
 
 void setup() {
