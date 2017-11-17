@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <Wire.h>
-#include <sensor_fusion.h>
+#include "sensor_fusion.h"
 
 #define ahx 59
 #define alx 60
@@ -25,22 +25,25 @@ void computeBiasComp(int lowBit, int highBit, float* dest) {
   uint8_t ready;
   uint8_t temp;
 
-    for (int i = 0; i < 75; i++) {
+  for (int i = 0; i < 75; i++) {
     do
-      {
-        readReg(58,&ready,1);
-      }while(!(ready & 0x01));
+    {
+      readReg(58, &ready, 1);
+    } while (ready & 0x01);
 
 
-    readReg(highBit,&temp,1);
+    readReg(highBit, &temp, 1);
     *dest += temp << 4;
-    readReg(lowBit,&temp,1);
+    readReg(lowBit, &temp, 1);
+    Serial.println(temp);
     *dest += *dest + temp;
   }
   *dest = *dest / 75;
 }
 
-void setup(){
+void setup() {
+  Serial.begin(9600);
+  Serial.println("Opened serial");
 
   Wire.begin();
   config();
@@ -59,7 +62,7 @@ void setup(){
   readReg(26, con, 1);
   Serial.print("Con(fig?) Register: ");
   Serial.println(*con, BIN);
-  
+
   computeBiasComp(alx, ahx, &accelBias.x);
   Serial.print("AccelBias X: ");
   Serial.println(accelBias.x);
@@ -86,6 +89,6 @@ void setup(){
 
 }
 
-void loop(){
+void loop() {
 
 }
