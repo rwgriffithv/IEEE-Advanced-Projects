@@ -23,7 +23,7 @@ void config()
 
 }
 
-const uint8_t ADRslave = 0x66
+const uint8_t ADRslave = 0x66;
 
 void readReg(uint8_t reg, uint8_t *buf, size_t len)
 {
@@ -49,8 +49,7 @@ void writeReg(uint8_t reg, uint8_t *buf, size_t len)
 {
   Wire.beginTransmission(ADRslave);
     
-  Wire.write(reg & 0x0F);
-  Wire.write(reg & 0xF0);
+  Wire.write(reg);
     
   while (len--)
     Wire.write(*(buf++));
