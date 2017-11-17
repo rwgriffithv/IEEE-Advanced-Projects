@@ -28,13 +28,13 @@ void computeBiasComp(int lowBit, int highBit, float* dest) {
     for (int i = 0; i < 75; i++) {
     do
       {
-        readRegister(58,&ready,1)
+        readReg(58,&ready,1)
       }while(!(ready & 0x01))
 
 
-    readRegister(highBit,&temp,1);
+    readReg(highBit,&temp,1);
     *dest += temp << 4;
-    readRegister(lowBit,&temp,1);
+    readReg(lowBit,&temp,1);
     *dest += *dest + temp;
   }
   *dest = *dest / 75;
@@ -46,19 +46,19 @@ void setup(){
   config();
 
   uint8_t* pwrMgmt;
-  readRegister(107, pwrMgmt, 1);
+  readReg(107, pwrMgmt, 1);
   Serial.print("Power Management Register: ");
   Serial.print(*pwrMgmt, BIN);
   Serial.print("\n");
 
   uint8_t* set_full_scale;
-  readRegister(0x1B, set_full_scale, 1);
+  readReg(0x1B, set_full_scale, 1);
   Serial.print("Set Full Scale Register: ");
   Serial.print(*set_full_scale, BIN);
   Serial.print("\n");
 
   uint8_t* con;
-  readRegister(26, con, 1);
+  readReg(26, con, 1);
   Serial.print("Con(fig?) Register: ");
   Serial.print(*con, BIN);
   Serial.print("\n");
