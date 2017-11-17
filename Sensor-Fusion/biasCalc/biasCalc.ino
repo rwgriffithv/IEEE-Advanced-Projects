@@ -16,13 +16,11 @@
 #define ghz 71
 #define glz 72
 
-
 struct vector accelBias;
 struct vector gyroBias;
 
 void computeBiasComp(int lowBit, int highBit, float* dest) {
   long sum = 0;
-  uint8_t ready;
   uint8_t temp;
   unsigned short addMe = 0;
   
@@ -35,7 +33,21 @@ void computeBiasComp(int lowBit, int highBit, float* dest) {
     addMe += (unsigned short)temp;
     sum += (short)(addMe);
   }
-  *dest = (float)(sum / i);
+  *dest = (float)(-sum / i);
+}
+
+float getVectors(vector *accelVector, vector *gyroVector) {
+  uint8_t temp;
+  unsigned short val = 0;
+
+  for (int i = 0; i < 6; i++) {
+    readReg(ahx + i, &temp, 1);
+    val += ((unsigned short)(temp)) << 8;
+    readReg(alx, &temp, 1);
+    val += (unsigned short)temp;
+  }
+
+  *accelVector.x = val;
 }
 
 void setup() {
@@ -69,6 +81,8 @@ void setup() {
   computeBiasComp(glz, ghz, &gyroBias.z);
   Serial.print("GyroBias Z: ");
   Serial.println(gyroBias.z);
+
+  
 
 }
 
