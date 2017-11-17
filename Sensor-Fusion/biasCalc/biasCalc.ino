@@ -47,37 +47,46 @@ void setup(){
 
   uint8_t* pwrMgmt;
   readRegister(107, pwrMgmt, 1);
+  Serial.print("Power Management Register: ");
   Serial.print(*pwrMgmt, BIN);
   Serial.print("\n");
 
   uint8_t* set_full_scale;
   readRegister(0x1B, set_full_scale, 1);
+  Serial.print("Set Full Scale Register: ");
   Serial.print(*set_full_scale, BIN);
   Serial.print("\n");
 
   uint8_t* con;
   readRegister(26, con, 1);
+  Serial.print("Con(fig?) Register: ");
   Serial.print(*con, BIN);
   Serial.print("\n");
   
   computeBiasComp(alx, ahx, &accelBias.x);
+  Serial.print("AccelBias X: ");
   Serial.print(accelBias.x);
   Serial.print("\n");
   computeBiasComp(aly, ahy, &accelBias.y);
+  Serial.print("AccelBias Y: ");
   Serial.print(accelBias.y);
   Serial.print("\n");
   computeBiasComp(alz, ahz, &accelBias.z);
+  Serial.print("AccelBias Z: ");
   Serial.print(accelBias.z);
   Serial.print("\n");
 
   computeBiasComp(glx, ghx, &gyroBias.x);
-  Serial.print(accelBias.x);
+  Serial.print("GyroBias X: ");
+  Serial.print(gyroBias.x);
   Serial.print("\n");
   computeBiasComp(gly, ghy, &gyroBias.y);
-  Serial.print(accelBias.y);
+  Serial.print("GyroBias Y: ");
+  Serial.print(gyroBias.y);
   Serial.print("\n");
   computeBiasComp(glz, ghz, &gyroBias.z);
-  Serial.print(accelBias.z);
+  Serial.print("GyroBias Z: ");
+  Serial.print(gyroBias.z);
   Serial.print("\n");
 
 }
