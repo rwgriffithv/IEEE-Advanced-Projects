@@ -35,7 +35,7 @@ void computeBiasComp(int lowBit, int highBit, float* dest) {
     readReg(highBit, &temp, 1);
     *dest += temp << 4;
     readReg(lowBit, &temp, 1);
-    Serial.println(temp);
+//    Serial.println(temp);
     *dest += *dest + temp;
   }
   *dest = *dest / 75;
@@ -55,7 +55,10 @@ void setup() {
 
   uint8_t* set_full_scale;
   readReg(0x1B, set_full_scale, 1);
-  Serial.print("Set Full Scale Register: ");
+  Serial.print("Gyro Set Full Scale Register: ");
+  Serial.println(*set_full_scale, BIN);
+  readReg(0x1C, set_full_scale, 1);
+  Serial.print("Accel Set Full Scale Register: ");
   Serial.println(*set_full_scale, BIN);
 
   uint8_t* con;

@@ -6,8 +6,14 @@ void config()
 {
     uint8_t* pwrMgmt;
     readReg(107, pwrMgmt,1);
-    *pwrMgmt |= 0x40;
+    Serial.print("pwr in config: ");
+    Serial.println(*pwrMgmt, BIN);
+    *pwrMgmt = 0xff;
     writeReg(107, pwrMgmt, 1);
+    *pwrMgmt = 0x00;
+    readReg(107, pwrMgmt,1);
+    Serial.print("pwr in config after write: ");
+    Serial.println(*pwrMgmt, BIN);
     
     uint8_t GYRO_CONFIG = 0x1B;
     uint8_t set_full_scale = 0x18;
@@ -29,13 +35,13 @@ void readReg(uint8_t reg, uint8_t *buf, size_t len)
 {
     Wire.beginTransmission(ADRslave);
     
-    uint8_t ADplusR = (reg << 1) | 1;
-    writeReg(reg, &ADplusR, 1);
-    
     Wire.endTransmission();
     
     if (Wire.requestFrom(ADRslave, len) == 0) 
     {
+    uint8_t ADplusR = (reg << 1) | 1;
+    writeReg(reg, &ADplusR, 1);
+    
         Serial.print("Read called but nothing read from slave: ");
         Serial.println(ADRslave,BIN);
     }
@@ -52,10 +58,12 @@ void writeReg(uint8_t reg, uint8_t *buf, size_t len)
 {
   Wire.beginTransmission(ADRslave);
     
-  Wire.write(reg);
+  Wire.write(reg<<1);
     
-  while (len--)
-    Wire.write(*(buf++));
+  for(size_t i = 0; i < len; i++)
+  {
+    Wire.write(buf[i]);
+  }
 
   char ret = Wire.endTransmission();
 
