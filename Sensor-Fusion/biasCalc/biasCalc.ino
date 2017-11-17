@@ -41,7 +41,7 @@ void computeBiasComp(int lowBit, int highBit, float* dest) {
 }
 
 void setup(){
-
+  Serial.begin(9600);
   Wire.begin();
   config();
 
@@ -85,3 +85,8 @@ void setup(){
   Serial.println(gyroBias.z);
 
 }
+
+void loop()
+{
+}
+
