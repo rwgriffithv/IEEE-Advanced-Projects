@@ -29,18 +29,16 @@ void config()
 
 }
 
-const uint8_t ADRslave = 0x68;
+int ADRslave = 0x68;
 
 void readReg(uint8_t reg, uint8_t *buf, size_t len)
 {
     Wire.beginTransmission(ADRslave);
     
-    Wire.endTransmission();
+    Wire.write(reg);
     
-    if (Wire.requestFrom(ADRslave, len) == 0) 
+    if (Wire.requestFrom(ADRslave, len, 0) == 0) 
     {
-    uint8_t ADplusR = (reg << 1) | 1;
-    writeReg(reg, &ADplusR, 1);
     
         Serial.print("Read called but nothing read from slave: ");
         Serial.println(ADRslave,BIN);
@@ -51,14 +49,16 @@ void readReg(uint8_t reg, uint8_t *buf, size_t len)
     {
         buf[i] = Wire.read();
         i++;
-    } 
+    }
+
+     Wire.endTransmission();
 }
 
 void writeReg(uint8_t reg, uint8_t *buf, size_t len)
 {
   Wire.beginTransmission(ADRslave);
     
-  Wire.write(reg<<1);
+  Wire.write(reg);
     
   for(size_t i = 0; i < len; i++)
   {
