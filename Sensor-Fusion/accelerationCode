@@ -1,0 +1,29 @@
+Serial.begin(115200)
+
+void loopAcceleration() {
+	vector aVec;
+	uint8_t buffer;
+	uint8_t temp = 0;
+
+	readReg(ahx, &buffer, 1);
+	temp = buffer << 8;
+	readReg(alx, &bufffer, 1);
+	temp |= buffer;
+	aVec.x = (float)(int)temp;
+
+	readReg(ahy, &buffer, 1);
+	temp = buffer << 8;
+	readReg(ahy, &buffer, 1);
+	temp |= buffer;
+	aVec.y = (float)(int)temp;
+
+	readReg(ahz, &buffer, 1);
+	temp = buffer << 8;
+	readReg(ahz, &buffer, 1);
+	temp |= buffer;
+	aVec.z = (float)(int)temp;
+
+	vector_add(&aVec, &accelBias, &aVec);
+	vector_normalize(&aVec, &aVec);
+	Serial.println(aVec.x + " " + aVec.y + " " + aVec.z);
+}
