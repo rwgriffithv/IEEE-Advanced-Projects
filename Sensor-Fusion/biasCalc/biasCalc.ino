@@ -22,14 +22,14 @@ struct vector gyroBias;
 
 void computeBiasComp(int lowBit, int highBit, float* dest) {
   *dest = 0;
-  short ready;
-  short temp;
+  uint8_t ready;
+  uint8_t temp;
 
     for (int i = 0; i < 75; i++) {
     do
       {
-        readReg(58,&ready,1)
-      }while(!(ready & 0x01))
+        readReg(58,&ready,1);
+      }while(!(ready & 0x01));
 
 
     readReg(highBit,&temp,1);
@@ -48,45 +48,40 @@ void setup(){
   uint8_t* pwrMgmt;
   readReg(107, pwrMgmt, 1);
   Serial.print("Power Management Register: ");
-  Serial.print(*pwrMgmt, BIN);
-  Serial.print("\n");
+  Serial.println(*pwrMgmt, BIN);
 
   uint8_t* set_full_scale;
   readReg(0x1B, set_full_scale, 1);
   Serial.print("Set Full Scale Register: ");
-  Serial.print(*set_full_scale, BIN);
-  Serial.print("\n");
+  Serial.println(*set_full_scale, BIN);
 
   uint8_t* con;
   readReg(26, con, 1);
   Serial.print("Con(fig?) Register: ");
-  Serial.print(*con, BIN);
-  Serial.print("\n");
+  Serial.println(*con, BIN);
   
   computeBiasComp(alx, ahx, &accelBias.x);
   Serial.print("AccelBias X: ");
-  Serial.print(accelBias.x);
-  Serial.print("\n");
+  Serial.println(accelBias.x);
+
   computeBiasComp(aly, ahy, &accelBias.y);
   Serial.print("AccelBias Y: ");
-  Serial.print(accelBias.y);
-  Serial.print("\n");
+  Serial.println(accelBias.y);
+
   computeBiasComp(alz, ahz, &accelBias.z);
   Serial.print("AccelBias Z: ");
-  Serial.print(accelBias.z);
-  Serial.print("\n");
+  Serial.println(accelBias.z);
 
   computeBiasComp(glx, ghx, &gyroBias.x);
   Serial.print("GyroBias X: ");
-  Serial.print(gyroBias.x);
-  Serial.print("\n");
+  Serial.println(gyroBias.x);
+
   computeBiasComp(gly, ghy, &gyroBias.y);
   Serial.print("GyroBias Y: ");
-  Serial.print(gyroBias.y);
-  Serial.print("\n");
+  Serial.println(gyroBias.y);
+
   computeBiasComp(glz, ghz, &gyroBias.z);
   Serial.print("GyroBias Z: ");
-  Serial.print(gyroBias.z);
-  Serial.print("\n");
+  Serial.println(gyroBias.z);
 
 }
