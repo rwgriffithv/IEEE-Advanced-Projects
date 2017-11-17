@@ -22,6 +22,13 @@ struct vector gyroBias;
 struct vector accelVector;
 struct vector gyroVector;
 
+struct vector trueUpG;
+
+uint8_t timePrev = 0;
+uint8_t timeCurr = 0;
+
+float gAngle;
+
 void computeBiasComp(int lowBit, int highBit, float* dest) {
   long sum = 0;
   uint8_t temp;
@@ -77,6 +84,13 @@ void getVectors(struct vector *accelVector, struct vector *gyroVector) {
   gyroVector->z = (float)vals[2];
 
   vector_add(gyroVector, &gyroBias, gyroVector);
+
+  timePrev = timeCurr;
+  timeCurr = millis();
+  uint8_t stepTime = timeCurr - timePrev;
+
+  gAngle = sqrt(pow(gyroVector->x, 2) + pow(gyroVector->y, 2) + pow(gyroVector->z, 2)) * stepTime;
+
   vector_normalize(gyroVector, gyroVector);
 }
 
@@ -114,17 +128,33 @@ void setup() {
 
   accelBias.z += 2048;
 
+  trueUpG.x = 0;
+  trueUpG.y = 0;
+  trueUpG.z = 1;
 }
 
 void loop() {
-    getVectors(&accelVector, &gyroVector);
-    Serial.print(accelVector.x);
-    Serial.print(" ");
-    Serial.print(accelVector.y);
-    Serial.print(" ");
-    Serial.println(accelVector.z);
+  getVectors(&accelVector, &gyroVector);
+
+  quaternion rotateQuat;
+  vector tempUp;
+
+  quaternion_create(&gyroVector, -gAngle, &rotateQuat);
+  quaternion_rotate(&trueUpG, &rotateQuat, &tempUp);
+  trueUpG.x = tempUp.x;
+  trueUpG.y = tempUp.y;
+  trueUpG.z = tempUp.z;
+
+  Serial.print(accelVector.x);
+  Serial.print(" ");
+  Serial.print(accelVector.y);
+  Serial.print(" ");
+  Serial.print(accelVector.z);
+  Serial.print(" ");
 //    Serial.print("Gyroscope:");
-//    Serial.println(gyroVector.x);
-//    Serial.println(gyroVector.y);
-//    Serial.println(gyroVector.z);
+  Serial.print(gyroVector.x);
+  Serial.print(" ");
+  Serial.print(gyroVector.y);
+  Serial.print(" ");
+  Serial.println(gyroVector.z);
 }
