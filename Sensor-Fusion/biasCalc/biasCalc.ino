@@ -19,6 +19,9 @@
 struct vector accelBias;
 struct vector gyroBias;
 
+struct vector accelVector;
+struct vector gyroVector;
+
 void computeBiasComp(int lowBit, int highBit, float* dest) {
   long sum = 0;
   uint8_t temp;
@@ -36,22 +39,49 @@ void computeBiasComp(int lowBit, int highBit, float* dest) {
   *dest = (float)(-sum / i);
 }
 
-float getVectors(vector *accelVector, vector *gyroVector) {
+void getVectors(struct vector *accelVector, struct vector *gyroVector) {
   uint8_t temp;
   unsigned short val = 0;
 
-  for (int i = 0; i < 6; i++) {
-    readReg(ahx + i, &temp, 1);
+  struct vector tempVector;
+
+  short vals[3];
+  
+  for (int i = 0; i < 3; i++) {
+    val = 0;
+    readReg(ahx + 2*i, &temp, 1);
     val += ((unsigned short)(temp)) << 8;
-    readReg(alx, &temp, 1);
-    val += (unsigned short)temp;
+    readReg(alx + 2*i, &temp, 1);
+    val += (short)temp;
+    vals[i] = val;
   }
 
-  *accelVector.x = val;
+  accelVector->x = (float)vals[0];
+  accelVector->y = (float)vals[1];
+  accelVector->z = (float)vals[2];
+
+  vector_add(accelVector, &accelBias, accelVector);
+  vector_normalize(accelVector, accelVector);
+  
+  for (int i = 0; i < 3; i++) {
+    val = 0;
+    readReg(ghx + 2*i, &temp, 1);
+    val += ((unsigned short)(temp)) << 8;
+    readReg(glx + 2*i, &temp, 1);
+    val += (unsigned short)temp;
+    vals[i] = (short)val;
+  }
+
+  gyroVector->x = (float)vals[0];
+  gyroVector->y = (float)vals[1];
+  gyroVector->z = (float)vals[2];
+
+  vector_add(gyroVector, &gyroBias, gyroVector);
+  vector_normalize(gyroVector, gyroVector);
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Opened serial");
 
   Wire.begin();
@@ -82,10 +112,19 @@ void setup() {
   Serial.print("GyroBias Z: ");
   Serial.println(gyroBias.z);
 
-  
+  accelBias.z += 2048;
 
 }
 
 void loop() {
-
+    getVectors(&accelVector, &gyroVector);
+    Serial.print(accelVector.x);
+    Serial.print(" ");
+    Serial.print(accelVector.y);
+    Serial.print(" ");
+    Serial.println(accelVector.z);
+//    Serial.print("Gyroscope:");
+//    Serial.println(gyroVector.x);
+//    Serial.println(gyroVector.y);
+//    Serial.println(gyroVector.z);
 }
