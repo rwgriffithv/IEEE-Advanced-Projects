@@ -63,9 +63,10 @@ void writeReg(uint8_t reg, uint8_t *buf, size_t len)
 float vector_normalize(struct vector *raw, struct vector *unit)
 {
   float mag = sqrt(pow(raw->x, 2) + pow(raw->y, 2) + pow(raw->z, 2));
+  if (mag != 0) {
   unit->x = raw->x / mag;
   unit->y = raw->y / mag;
-  unit->z = raw->z / mag;
+  unit->z = raw->z / mag; }
   return mag;
 }
 
