@@ -4,28 +4,31 @@
 
 void config()
 {
+  
     uint8_t pwrMgmt;
-    readReg(107, &pwrMgmt,1);
-    Serial.print("pwr in config: ");
-    Serial.println(pwrMgmt, BIN);
-    pwrMgmt = 0xff;
+    readReg(107, &pwrMgmt, 1);
+    pwrMgmt &= 0xBF;
     writeReg(107, &pwrMgmt, 1);
-    pwrMgmt = 0x00;
-    readReg(107, &pwrMgmt,1);
-    Serial.print("pwr in config after write: ");
-    Serial.println(pwrMgmt, BIN);
+    Serial.print("Power Management: ");
+    Serial.println(pwrMgmt, HEX);
     
     uint8_t GYRO_CONFIG = 0x1B;
     uint8_t set_full_scale = 0x18;
     writeReg(GYRO_CONFIG, &set_full_scale, 1);
+    Serial.print("Gyro Config: ");
+    Serial.println(set_full_scale, HEX);
     
     uint8_t ACCEL_CONFIG = 0x1C;
     writeReg(ACCEL_CONFIG, &set_full_scale, 1);
-
+    Serial.print("Accel Config: ");
+    Serial.println(set_full_scale, HEX);
+    
     uint8_t con;
     readReg(26, &con, 1);
     con &= 0xF7;
     writeReg(26, &con, 1);
+    Serial.print("Config: ");
+    Serial.println(con, HEX);
 
 }
 
@@ -35,21 +38,12 @@ void readReg(uint8_t reg, uint8_t *buf, size_t len)
 {
     Wire.beginTransmission(ADRslave);
     
-    Wire.write(reg);
-    Wire.endTransmission(0);
-    
-    if (Wire.requestFrom(ADRslave, len) == 0) 
-    {
-    
-        Serial.print("Read called but nothing read from slave: ");
-        Serial.println(ADRslave,BIN);
-    }
-    
-    int i = 0;
-    while(Wire.available())
-    {
-        buf[i] = Wire.read();
-        i++;
+    Wire.write((uint8_t)reg);
+    Wire.endTransmission(false);
+    Wire.requestFrom(ADRslave, len);
+ 
+    for (int i = 0; i < len; i++) {
+      buf[i] = Wire.read();
     }
 
      Wire.endTransmission();
@@ -60,26 +54,10 @@ void writeReg(uint8_t reg, uint8_t *buf, size_t len)
   Wire.beginTransmission(ADRslave);
     
   Wire.write(reg);  
-    
-  for(size_t i = 0; i < len; i++)
-  {
-    Wire.write(buf[i]);
-  }
 
-  char ret = Wire.endTransmission();
+  Wire.write(buf, len);
 
-  if (!ret)
-    return;
-  else {
-    if (ret == 1)
-      Serial.println("Error 1: Data too long to fit in transmit buffer!");
-    else if (ret == 2)
-      Serial.println("Error 2: Received NACK on transmit of address!");
-    else if (ret == 3)
-      Serial.println("Error 3: Received NACK on transmit of data!");
-    else
-      Serial.println("Error 4: Other error!");
-  }
+  Wire.endTransmission();
 }
 
 float vector_normalize(struct vector *raw, struct vector *unit)
