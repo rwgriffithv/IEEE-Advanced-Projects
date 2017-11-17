@@ -46,25 +46,26 @@ void setup() {
   Serial.println("Opened serial");
 
   Wire.begin();
+//  Wire.setClock(100000);
   config();
 
-  uint8_t* pwrMgmt;
-  readReg(107, pwrMgmt, 1);
+  uint8_t pwrMgmt;
+  readReg(107, &pwrMgmt, 1);
   Serial.print("Power Management Register: ");
-  Serial.println(*pwrMgmt, BIN);
+  Serial.println(pwrMgmt, BIN);
 
-  uint8_t* set_full_scale;
-  readReg(0x1B, set_full_scale, 1);
+  uint8_t set_full_scale;
+  readReg(0x1B, &set_full_scale, 1);
   Serial.print("Gyro Set Full Scale Register: ");
-  Serial.println(*set_full_scale, BIN);
+  Serial.println(set_full_scale, BIN);
   readReg(0x1C, set_full_scale, 1);
   Serial.print("Accel Set Full Scale Register: ");
-  Serial.println(*set_full_scale, BIN);
+  Serial.println(set_full_scale, BIN);
 
-  uint8_t* con;
+  uint8_t con;
   readReg(26, con, 1);
   Serial.print("Con(fig?) Register: ");
-  Serial.println(*con, BIN);
+  Serial.println(con, BIN);
 
   computeBiasComp(alx, ahx, &accelBias.x);
   Serial.print("AccelBias X: ");
