@@ -9,11 +9,11 @@ void config()
     *pwrMgmt |= 0x40;
     writeReg(107, pwrMgmt, 1);
     
-    const uint8_t GYRO_CONFIG = 0x1B;
-    const uint8_t set_full_scale = 0x18;
-    writeReg(GRYO_CONFIG, &set_full_scale, 1);
+    uint8_t GYRO_CONFIG = 0x1B;
+    uint8_t set_full_scale = 0x18;
+    writeReg(GYRO_CONFIG, &set_full_scale, 1);
     
-    const uint8_t ACCEL_CONFIG = 0x1C;
+    uint8_t ACCEL_CONFIG = 0x1C;
     writeReg(ACCEL_CONFIG, &set_full_scale, 1);
 
     uint8_t* con;
