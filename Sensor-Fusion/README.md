@@ -7,6 +7,7 @@ Three unit vectors representing "true up" relative to the current orientation of
 
 The spec for this project can be found in spec.pdf and the final arduino code is within the folder entitled normalVectorFusion.  
 The written file normalVectorFusion.ino will print the components of each vector on one line, which can be processed and visualized using the application visualizer.exe which was provided by the IEEE AP project leads.  
+I have uploaded the executable here: https://drive.google.com/open?id=1DWbbnri0LaV_kIbrMANC7wqFKkcLSzZK  
   
   
 **Collaborators:**  
