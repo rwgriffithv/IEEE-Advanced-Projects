@@ -1,7 +1,20 @@
 #include <Arduino.h>
 
-/**Configures the device
-*/
+struct vector {
+  float x;
+  float y;
+  float z;
+};
+
+struct quaternion {
+  float r;
+  float i;
+  float j;
+  float k;
+};
+
+/** Configures the IMU.
+ */
 void config();
 
 /** Reads a register over I2C from the IMU.
@@ -19,24 +32,6 @@ void readReg(uint8_t reg, uint8_t *buf, size_t len);
  * len: length of buf.
  */
 void writeReg(uint8_t reg, uint8_t *buf, size_t len);
-
-/** configure the IMU
- *returns non-zero if there was an error
-*/
-void config();
-
-struct vector {
-  float x;
-  float y;
-  float z;
-};
-
-struct quaternion {
-  float r;
-  float i;
-  float j;
-  float k;
-};
 
 /**
  * Normalizes a vector.
