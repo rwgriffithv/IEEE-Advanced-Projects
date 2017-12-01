@@ -1,9 +1,19 @@
-void setup() {
-  // put your setup code here, to run once:
+#define MOTOR 
 
+void setup() {
+  pinMode(MOTOR, OUTPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  for (i = 1; i <= 25; i++)
+  {
+    analogWrite(MOTOR, i);
+  }
 
+  for (i = 1; i <= 25; i++)
+  {
+    analogWrite(MOTOR, 25 - i);
+  }
+
+  delay(1000);
 }
