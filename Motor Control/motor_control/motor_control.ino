@@ -1,19 +1,19 @@
-#define MOTOR 
+#define MOTOR 10
 
 void setup() {
   pinMode(MOTOR, OUTPUT);
 }
 
 void loop() {
-  for (i = 1; i <= 25; i++)
+  for (int i = 1; i <= 150; i++)
   {
     analogWrite(MOTOR, i);
     delay(50);
   }
 
-  for (i = 1; i <= 25; i++)
+  for (int i = 1; i <= 150; i++)
   {
-    analogWrite(MOTOR, 25 - i);
+    analogWrite(MOTOR, 150 - i);
     delay(50);
   }
 
