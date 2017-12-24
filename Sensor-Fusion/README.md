@@ -10,4 +10,4 @@ The written file [normalVectorFusion.ino](https://github.com/rwgriffithv/IEEE-Ad
 The executable has been uploaded to this [drive](https://drive.google.com/open?id=1DWbbnri0LaV_kIbrMANC7wqFKkcLSzZK).
 
 **Collaborators:**  
-[Brian Dionigi](https://github.com/il-dionigi) | [Kevin Ke-En Sun](https://github.com/inherentlyMalicious) | [Koji Kusumi](https://github.com/kojiboji) | [Rob Griffith](https://github.com/rwgriffithv)
+[Brian Raymond](https://github.com/il-dionigi) | [Kevin Ke-En Sun](https://github.com/inherentlyMalicious) | [Koji Kusumi](https://github.com/kojiboji) | [Rob Griffith](https://github.com/rwgriffithv)
