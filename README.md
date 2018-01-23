@@ -14,7 +14,7 @@ Lab      		|	 Spec 		| 	Date
 
 Lab      		|	 Spec 		| Date
 -------- 		|	 ---		| ---
-N/A			|     	N/A          	| N/A
+[Schematic Design](https://github.com/il-dionigi/IEEE-AP-SchematicDesign/tree/7a51a5b0bba2e805959c1187e6dce55836e8e323)	|	N/A          	| N/A
 
 **Collaborators:**  
 [Brian Raymond](https://github.com/il-dionigi) | [Kevin Ke-En Sun](https://github.com/inherentlyMalicious) | [Koji Kusumi](https://github.com/kojiboji) | [Rob Griffith](https://github.com/rwgriffithv)
