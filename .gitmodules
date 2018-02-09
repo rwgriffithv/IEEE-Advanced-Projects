@@ -1,6 +1,6 @@
 [submodule "IEEE-AP-WirelessSpaceTeam"]
-	path = IEEE-AP-WirelessSpaceTeam
+	path = Wireless-Space-Team
 	url = https://github.com/il-dionigi/IEEE-AP-WirelessSpaceTeam
 [submodule "Schematic Design"]
-	path = Schematic Design
+	path = Circuit-Board-Design
 	url = https://github.com/il-dionigi/IEEE-AP-SchematicDesign
